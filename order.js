@@ -235,4 +235,34 @@
   });
 
   render();
+
+  // ---- hero carousel: swipe (native scroll-snap), arrows, dots, arrow keys ----
+  for (const c of document.querySelectorAll("[data-carousel]")) {
+    const track = c.querySelector("[data-track]");
+    const slides = [...track.children];
+    const dots = c.querySelector("[data-dots]");
+    const go = (i) => {
+      const n = (i + slides.length) % slides.length;
+      track.scrollTo({ left: slides[n].offsetLeft - track.offsetLeft, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    };
+    const current = () => Math.round(track.scrollLeft / slides[0].getBoundingClientRect().width);
+    slides.forEach((_, i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("aria-label", `Photo ${i + 1} of ${slides.length}`);
+      b.addEventListener("click", () => go(i));
+      dots.append(b);
+    });
+    const sync = () => [...dots.children].forEach((b, i) => b.setAttribute("aria-current", String(i === current())));
+    track.addEventListener("scroll", () => requestAnimationFrame(sync), { passive: true });
+    c.querySelector("[data-prev]").hidden = false;
+    c.querySelector("[data-next]").hidden = false;
+    c.querySelector("[data-prev]").addEventListener("click", () => go(current() - 1));
+    c.querySelector("[data-next]").addEventListener("click", () => go(current() + 1));
+    track.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") go(current() + 1);
+      if (e.key === "ArrowLeft") go(current() - 1);
+    });
+    sync();
+  }
 })();
