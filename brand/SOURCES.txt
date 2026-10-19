@@ -1,0 +1,1 @@
+eakc-mark.png, eakc-mark-light.png: the Emirates Agency for Kosher Certification mark, from https://www.eakc.ae (static.wixstatic.com/media/78a6c2_ac95e6b9c78b4337806e01c72872682b~mv2.png), shown because Treat Kosher's certificate EAKC-KCS-N2216 (Instagram post CHfdVbWJMeo, 2020) is issued by EAKC. Confirm the certificate is current before launch.
